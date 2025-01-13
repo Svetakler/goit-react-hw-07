@@ -4,7 +4,7 @@ import { selectFilteredContacts } from "../../redux/contactsSlice";
 import Contact from "../Contact/Contact";
 import { useEffect } from "react";
 import styles from "./ContactList.module.css";
-import { deleteContact } from "../../redux/contactsOps"; 
+import { deleteContact } from "../../redux/contactsOps";
 
 const ContactList = () => {
   const dispatch = useDispatch();
@@ -24,15 +24,9 @@ const ContactList = () => {
 
   return (
     <ul className={styles.list}>
-      {contacts
-        .filter((contact) => contact.name && contact.number) 
-        .map((contact) => (
-          <Contact
-            key={contact.id}
-            {...contact}
-            onDelete={handleDelete} 
-          />
-        ))}
+      {contacts.map((contact) => (
+        <Contact key={contact.id} {...contact} onDelete={handleDelete} />
+      ))}
     </ul>
   );
 };
