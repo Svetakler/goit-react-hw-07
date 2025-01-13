@@ -1,23 +1,28 @@
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import { store, persistor } from "../../redux/store";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchContacts } from "../../redux/contactsOps";
 import ContactList from "../ContactList/ContactList";
-import SearchBox from "../SearchBox/SearchBox";
 import ContactsForm from "../ContactsForm/ContactsForm";
-import styles from "./App.module.css";
+import SearchBox from "../SearchBox/SearchBox";
+import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   return (
-    <Provider store={store}>
-      <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
-        <div className={styles.app}>
-          {" "}
-          <h1 className={styles.title}>Phonebook</h1> <ContactsForm />
-          <SearchBox />
-          <ContactList />
-        </div>
-      </PersistGate>
-    </Provider>
+    <ErrorBoundary>
+      {" "}
+      <div>
+        <h1>Phonebook</h1>
+        <SearchBox />
+        <ContactsForm />
+        <ContactList />
+      </div>
+    </ErrorBoundary>
   );
 };
 
